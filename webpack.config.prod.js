@@ -40,7 +40,7 @@ module.exports = {
   mode: "production",
   target: "web",
   devtool: "source-map",
-  entry: "./src/index",
+  entry: path.join(__dirname, "./src/index"),
   output: {
     path: path.resolve(__dirname, "build"),
     publicPath: "/",
@@ -48,8 +48,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
-      favicon: "src/favicon.ico",
+      template: path.join(__dirname, "src/index.html"),
+      favicon: path.join(__dirname, "src/favicon.ico"),
       minify: {
         // see https://github.com/kangax/html-minifier#options-quick-reference
         removeComments: true,
