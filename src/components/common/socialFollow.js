@@ -11,7 +11,7 @@ export default function SocialFollow() {
   return (
     <footer className="footer">
       <div className="row justify-content-center">
-        <a href="https://github.com/marcb23" className="social">
+        <a href="https://github.com/marqode" className="social">
           <FontAwesomeIcon icon={faGithub} size="2x" />
         </a>
         <a

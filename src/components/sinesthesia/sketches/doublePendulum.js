@@ -191,21 +191,26 @@ class Pendulum {
     // }
     //line(cx, cy, omega2, x1, y1, (-omega1));
     // c = (((x1 % 255) / 255) * 120, ((y1 % 255) / 255) * 60, 0, 35);
-    p5.stroke(c1, 5);
+
+    p5.stroke(c1);
+    // p5.stroke(c1, p5.random(180, 240), p5.random(120, 160), 5);
     p5.strokeWeight(5.0);
     p5.line(this.cx, this.cy, this.omega1, this.x1, this.y1, this.omega2);
-    p5.stroke(c2, 95);
+    p5.stroke(c2);
+    // p5.stroke(c2, p5.random(180, 240), p5.random(120, 160), 5);
     p5.strokeWeight(5.0);
     p5.line(this.x1, this.y1, this.omega1, this.x2, this.y2, -this.omega2);
 
     //fill(0);
   }
 
-  draw(c1, c2, p5) {
-    p5.stroke(c2);
+  draw(hue, sat, brt, hue2, p5) {
+    // p5.stroke(c2);
+    p5.stroke(hue, sat, brt, 5);
     p5.strokeWeight(0.5);
     p5.line(this.cx, this.cy, this.omega2, this.x1, this.y1, -this.omega1);
-    p5.stroke(c1);
+    // p5.stroke(c1);
+    p5.stroke(hue2, sat, brt, 5);
     p5.line(this.x1, this.y1, this.omega1, this.x2, this.y2, -this.omega2);
     //fill(0);
 
