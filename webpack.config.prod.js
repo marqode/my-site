@@ -1,15 +1,21 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const webpackBundleAnalyzer = require("webpack-bundle-analyzer");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const webpackBundleAnalyzer = require("webpack-bundle-analyzer");
 
 // removing css plugin for issue check
 // from plugins:
 // new MiniCssExtractPlugin({
 //   filename: "[name].[contenthash].css",
 // }),
+// new webpackBundleAnalyzer.BundleAnalyzerPlugin({ analyzeMode: "static" }),
+// new webpack.DefinePlugin({
+//   "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+//   "process.env.API_URL": JSON.stringify("http://localhost:3001"),
+// }),
 // from test \css\
+//
 // use: [
 //   MiniCssExtractPlugin.loader,
 //   {
@@ -26,6 +32,7 @@ const webpackBundleAnalyzer = require("webpack-bundle-analyzer");
 //     },
 //   },
 // ],
+// },
 
 process.env.NODE_ENV = "production";
 
@@ -40,11 +47,6 @@ module.exports = {
     filename: "bundle.js",
   },
   plugins: [
-    new webpackBundleAnalyzer.BundleAnalyzerPlugin({ analyzeMode: "static" }),
-    new webpack.DefinePlugin({
-      "process.ev.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      "process.env.API_URL": JSON.stringify("http://localhost:3001"),
-    }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       favicon: "src/favicon.ico",
