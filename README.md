@@ -4,9 +4,9 @@ Sinesthesia is unique among audio visualizers in that it uses music as the seed 
 
 ## TODO
 
-- email form validation
+- resolve branch diff
+- better redirect for gh-pages
 - add mail api for music lessons
-- create github version of site (or linode?)
 - enable processing to use audio features
 - move spotify api functions to api folder
 - add portfolio pieces
