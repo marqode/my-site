@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+// const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const webpackBundleAnalyzer = require("webpack-bundle-analyzer");
 
 process.env.NODE_ENV = "production";
@@ -20,7 +20,7 @@ module.exports = {
     filename: "bundle.js",
   },
   plugins: [
-    new CopyWebpackPlugin([{ from: "src/static" }]),
+    // new CopyWebpackPlugin([{ from: "src/static" }]),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
     }),
@@ -73,7 +73,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(png|jpg|jpeg)$/,
         use: "file-loader",
       },
       {

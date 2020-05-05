@@ -43,6 +43,10 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
+        test: /\.(png|jpg|jpeg)$/,
+        use: "file-loader",
+      },
+      {
         test: /\.pdf$/,
         use: "url-loader",
       },

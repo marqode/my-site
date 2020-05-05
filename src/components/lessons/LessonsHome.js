@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LessonForm from "./LessonForm";
-import * as emailApi from "../../api/emailApi";
+import { toast } from "react-toastify";
+// import * as emailApi from "../../api/emailApi";
 
 const LessonsHome = (props) => {
   const [email, setEmail] = useState({
@@ -30,31 +31,49 @@ const LessonsHome = (props) => {
     const errors = {};
 
     // map to props for each component in courseForm
-    if (!name) errors.title = "Title is required.";
+    if (!name) errors.name = "Name is required.";
     if (!address) errors.address = "Email address is required";
-    if (!subject) errors.category = "Subject is required";
-    if (!message) errors.category = "Message is required";
+    if (!subject) errors.subject = "Subject is required";
+    if (!message) errors.message = "Message is required";
 
     setErrors(errors);
 
     return Object.keys(errors).length === 0;
   }
 
-  function sendEmail(event) {
+  function handleSend(event) {
     event.preventDefault();
     if (!formIsValid()) return;
     setSending(true);
-    return (
-      emailApi
-        .sendEmail(email)
-        //     .then(() => {
-        //       toast.success("Email setn!");
-        //       history.push("/courses");
-        //     })
-        .catch((error) => {
-          throw error;
-        })
-    );
+    sendEmail()
+      .then(() => {
+        debugger;
+        toast.success("Course Saved");
+        setSending(false);
+      })
+      .catch((error) => {
+        setSending(false);
+        setErrors({ onSave: error.message });
+      });
+  }
+
+  // move to api file?
+  function sendEmail() {
+    return window.emailjs.send("gmail", "template_4UDckfCl", {
+      message_html: email.message,
+      from_name: email.name,
+      reply_to: email.address,
+      subject: email.subject,
+    });
+    // emailApi
+    //   .sendEmail(email)
+    //   //     .then(() => {
+    //   //       toast.success("Email setn!");
+    //   //       history.push("/courses");
+    //   //     })
+    //   .catch((error) => {
+    //     throw error;
+    //   })
   }
 
   return (
@@ -64,17 +83,16 @@ const LessonsHome = (props) => {
         <p>
           During the Covid pandemic and social distancing I am beginning to
           offer remote music lessons for aspriing pianists and guitar players.
-          This is a work in progress so thank you for your patience! Feel free
-          to contact me if you have any questions. This page will soon begin to
-          fill up with video samples and testimonials.
+          More content coming soon! Feel free to contact me if you have any
+          questions.
         </p>
       </div>
       <LessonForm
         email={email}
         errors={errors}
         onChange={handleChange}
-        onSave={sendEmail}
-        sending={false}
+        onSave={handleSend}
+        sending={sending}
       />
     </>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextareaInput from "../common/TextareaInput";
 import TextInput from "../common/TextInput";
-import SelectInput from "../common/SelectInput";
+// import SelectInput from "../common/SelectInput";
 
 // export function lessonForm (props) {
 
@@ -31,7 +31,7 @@ const LessonForm = ({
             value={email.name}
             placeholder="Name"
             onChange={onChange}
-            error={errors.title}
+            error={errors.name}
           />
 
           <TextInput
@@ -45,7 +45,7 @@ const LessonForm = ({
             //   text: author.name,
             // }))}
             onChange={onChange}
-            error={errors.email}
+            error={errors.address}
           />
           <TextInput
             name="subject"
@@ -54,7 +54,7 @@ const LessonForm = ({
             value={email.subject}
             placeholder="Subject"
             onChange={onChange}
-            error={errors.title}
+            error={errors.subject}
           />
 
           <TextareaInput

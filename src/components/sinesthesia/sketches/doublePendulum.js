@@ -1,7 +1,7 @@
 // import p5 from "p5";
 
 const friction = -0.271828;
-const dt = 0.000095;
+// const dt = 0.000095;
 
 class Pendulum {
   //Variable initialization
@@ -26,7 +26,8 @@ class Pendulum {
     phi2,
     omega1,
     omega2,
-    gc
+    gc,
+    dt
   ) {
     this.cx = cx;
     this.cy = cy;
@@ -47,6 +48,7 @@ class Pendulum {
     this.y1;
     this.x2;
     this.y2;
+    this.dt = dt;
 
     this.update = this.update.bind(this);
     this.draw = this.draw.bind(this);
@@ -97,60 +99,60 @@ class Pendulum {
     */
 
   update = (p5) => {
-    this.k1[0] = dt * this.omega1;
+    this.k1[0] = this.dt * this.omega1;
     this.l1[0] =
-      dt * this.domega1(this.phi1, this.phi2, this.omega1, this.omega2);
-    this.k1[1] = dt * (this.omega1 + this.l1[0] / 2);
+      this.dt * this.domega1(this.phi1, this.phi2, this.omega1, this.omega2);
+    this.k1[1] = this.dt * (this.omega1 + this.l1[0] / 2);
     this.l1[1] =
-      dt *
+      this.dt *
       this.domega1(
         this.phi1 + this.k1[0] / 2,
         this.phi2,
         this.omega1 + this.l1[0] / 2,
         this.omega2
       );
-    this.k1[2] = dt * (this.omega1 + this.l1[1] / 2);
+    this.k1[2] = this.dt * (this.omega1 + this.l1[1] / 2);
     this.l1[2] =
-      dt *
+      this.dt *
       this.domega1(
         this.phi1 + this.k1[1] / 2,
         this.phi2,
         this.omega1 + this.l1[1] / 2,
         this.omega2
       );
-    this.k1[3] = dt * (this.omega1 + this.l1[2]);
+    this.k1[3] = this.dt * (this.omega1 + this.l1[2]);
     this.l1[3] =
-      dt *
+      this.dt *
       this.domega1(
         this.phi1 + this.k1[2],
         this.phi2,
         this.omega1 + this.l1[2],
         this.omega2
       );
-    this.k2[0] = dt * this.omega2;
+    this.k2[0] = this.dt * this.omega2;
     this.l2[0] =
-      dt * this.domega2(this.phi1, this.phi2, this.omega1, this.omega2);
-    this.k2[1] = dt * (this.omega2 + this.l2[0] / 2);
+      this.dt * this.domega2(this.phi1, this.phi2, this.omega1, this.omega2);
+    this.k2[1] = this.dt * (this.omega2 + this.l2[0] / 2);
     this.l2[1] =
-      dt *
+      this.dt *
       this.domega2(
         this.phi1,
         this.phi2 + this.k2[0] / 2,
         this.omega1,
         this.omega2 + this.l2[0] / 2
       );
-    this.k2[2] = dt * (this.omega2 + this.l2[1] / 2);
+    this.k2[2] = this.dt * (this.omega2 + this.l2[1] / 2);
     this.l2[2] =
-      dt *
+      this.dt *
       this.domega2(
         this.phi1,
         this.phi2 + this.k2[1] / 2,
         this.omega1,
         this.omega2 + this.l2[1] / 2
       );
-    this.k2[3] = dt * (this.omega2 + this.l2[2]);
+    this.k2[3] = this.dt * (this.omega2 + this.l2[2]);
     this.l2[3] =
-      dt *
+      this.dt *
       this.domega2(
         this.phi1,
         this.phi2 + this.k2[2],
@@ -191,21 +193,26 @@ class Pendulum {
     // }
     //line(cx, cy, omega2, x1, y1, (-omega1));
     // c = (((x1 % 255) / 255) * 120, ((y1 % 255) / 255) * 60, 0, 35);
-    p5.stroke(c1, 5);
+
+    p5.stroke(c1);
+    // p5.stroke(c1, p5.random(180, 240), p5.random(120, 160), 5);
     p5.strokeWeight(5.0);
     p5.line(this.cx, this.cy, this.omega1, this.x1, this.y1, this.omega2);
-    p5.stroke(c2, 95);
+    p5.stroke(c2);
+    // p5.stroke(c2, p5.random(180, 240), p5.random(120, 160), 5);
     p5.strokeWeight(5.0);
     p5.line(this.x1, this.y1, this.omega1, this.x2, this.y2, -this.omega2);
 
     //fill(0);
   }
 
-  draw(c1, c2, p5) {
-    p5.stroke(c2);
+  draw(hue, sat, brt, hue2, p5) {
+    // p5.stroke(c2);
+    p5.stroke(hue, sat, brt, 5);
     p5.strokeWeight(0.5);
     p5.line(this.cx, this.cy, this.omega2, this.x1, this.y1, -this.omega1);
-    p5.stroke(c1);
+    // p5.stroke(c1);
+    p5.stroke(hue2, sat, brt, 5);
     p5.line(this.x1, this.y1, this.omega1, this.x2, this.y2, -this.omega2);
     //fill(0);
 

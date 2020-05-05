@@ -13,12 +13,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.card {
+  max-width: 20vw;
+  margin: 20px;
+  padding: 20px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 .nav a {
+  padding: 10px;
   padding-right: 20px;
 }
 
@@ -26,6 +33,7 @@ code {
   position: relative;
   left: 30px;
   margin-right: 60px;
+  padding: 2rem;
 }
 
 .footer {

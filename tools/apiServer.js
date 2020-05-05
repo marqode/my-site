@@ -44,13 +44,18 @@ server.use((req, res, next) => {
   next();
 });
 
-server.post("/email/", function (req, res, next) {
+server.post("/email", function (req, res, next) {
   const error = validateEmail(req.body);
+  console.log("routing email with body " + JSON.stringify(req.body));
   if (error) {
+    console.log("error detected");
     res.status(400).send(error);
   } else {
     // req.body.slug = createSlug(req.body.title); // Generate a slug for new courses.
-    next();
+    // req.body = "Email Sent";
+    console.log("email sent");
+    // next();  // use this if posting to DB
+    res.status(200).send("Email Sent");
   }
 });
 
