@@ -7,39 +7,30 @@ class Sinesthesia extends React.Component {
   constructor() {
     super();
     this.state = {
-      token: localStorage.getItem("token")
-        ? localStorage.getItem("token")
-        : null,
-      // items: [],
-      sketch: { sketchID: 0 },
+      token: null,
+      items: [],
       track: null,
       features: null,
-      playing: false,
     };
-
-    this.handleChange.bind(this);
-  }
-
-  handleChange() {
-    // destructure on first line to avoid errors
-    const { name, value } = event.target;
-    this.setState(() => ({
-      ...this.state.sketch,
-      [name]: parseInt(value, 10),
-    }));
   }
 
   async componentDidMount() {
-    let _token = hash.access_token || this.state.token;
-    // add handling for expired token
+    let _token = hash.access_token;
 
     if (_token) {
       console.log("token=" + _token);
       this.setState({
         token: _token,
       });
-      localStorage.setItem("token", _token);
       this.getData(_token);
+      // const data = await SpotifyApi.getData(_token);
+      // this.setState({
+      //   track: data.item,
+      // });
+      // console.log("track name: " + data.item.name);
+      // this.displayTrackFeatures();
+      // } else {
+      //   SpotifyApi.getToken();
     }
   }
 
@@ -50,18 +41,15 @@ class Sinesthesia extends React.Component {
         track: newData.item,
       });
       this.displayTrackFeatures();
-      this.setState({ playing: true });
     } catch (e) {
       try {
         let newData = await SpotifyApi.getLastPlayed(token);
         this.setState({
           track: newData.items[0].track,
-          playing: false,
         });
         this.displayTrackFeatures();
       } catch (e) {
-        console.log("Bad token, erasing from state");
-        this.setState({ token: "" });
+        console.log("Get Data failed with error: " + e);
       }
     }
   }
@@ -83,8 +71,6 @@ class Sinesthesia extends React.Component {
       <SinesthesiaContent
         track={this.state.track}
         features={this.state.features}
-        playing={this.state.playing}
-        onChange={this.handleChange}
         getToken={() =>
           this.state.token ? this.getData() : SpotifyApi.getToken()
         }

@@ -4,7 +4,7 @@ import { handleResponse, handleError } from "./apiUtils";
 export function getToken() {
   const authEndpoint = "https://accounts.spotify.com/authorize"; // make this env variable after testing
   const clientId = "a55de65e5c654a47b60506f9f093cc60";
-  const redirectUri = "http://localhost:3000/sinesthesia";
+  const redirectUri = process.env.REDIRECT_URI;
   const scopes = [
     "user-top-read",
     "user-read-currently-playing",
@@ -21,8 +21,6 @@ export function getToken() {
 }
 
 export function getCurrentlyPlaying(token) {
-  console.log("getting data with token " + token);
-  //   fetch("https://api.spotify.com/v1/me/top/artists", {
   return fetch("https://api.spotify.com/v1/me/player/currently-playing", {
     method: "GET",
     headers: { Authorization: "Bearer " + token },
@@ -32,8 +30,6 @@ export function getCurrentlyPlaying(token) {
 }
 
 export function getLastPlayed(token) {
-  console.log("getting last played");
-  //   fetch("https://api.spotify.com/v1/me/top/artists", {
   return fetch("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
     method: "GET",
     headers: { Authorization: "Bearer " + token },

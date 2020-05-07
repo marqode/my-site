@@ -7,7 +7,12 @@ import DoublePendulum from "./doublePendulum";
 class Sketch04 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { params: props.params };
+    this.state = {
+      params: props.params,
+      bg: props.bg,
+      colorMode: props.colorMode,
+      speed: props.speed || 60,
+    };
     this.myRef = React.createRef();
   }
 
@@ -42,11 +47,16 @@ class Sketch04 extends React.Component {
 
     p.setup = () => {
       // get canvas size from props
-      p.createCanvas(600, 600, p.WEBGL);
+      p.createCanvas(800, 600, p.WEBGL);
       p.smooth(8);
-      p.frameRate(40);
+      p.frameRate(this.state.speed);
       init(30, 10);
-      p.colorMode(p.HSB);
+      if (this.state.colorMode === "HSB") p.colorMode(p.HSB);
+      else p.colorMode(p.RGB);
+      // p.colorMode(p.HSB);
+      if (this.state.bg) {
+        p.background(this.state.bg);
+      }
     };
 
     // p.draw = () => {
@@ -154,6 +164,9 @@ class Sketch04 extends React.Component {
 
 Sketch04.propTypes = {
   params: PropTypes.object,
+  bg: PropTypes.array,
+  speed: PropTypes.number,
+  colorMode: PropTypes.string,
 };
 
 export default Sketch04;

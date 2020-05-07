@@ -29,9 +29,8 @@ const HomePage = () => (
             <img src={Upwork} className="card-img-top" alt="Upwork Profile" />
             <h5 className="card-title">Freelance Work</h5>
             <p className="card-text">
-              For the past several years {"I've"} been working on web
-              development clients ranging from social media platforms to
-              healthcare systems.
+              I work primarily with web development clients on projects ranging
+              from social media platforms to healthcare systems.
             </p>
             <a
               href="https://www.upwork.com/o/profiles/users/~0159865d28fe088b77/"

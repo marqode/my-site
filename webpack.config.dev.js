@@ -25,6 +25,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env.API_URL": JSON.stringify("http://localhost:3001"),
+      "process.env.REDIRECT_URI": JSON.stringify(
+        "http://localhost:3000/sinesthesia"
+      ),
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",

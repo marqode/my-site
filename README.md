@@ -2,10 +2,14 @@
 
 Sinesthesia is unique among audio visualizers in that it uses music as the seed for pieces of generative art. (By definition?) Generative art, much like human art, is never exactly the same. Make your suggestions below as to which aspects of your music inspire certain themes in the artwork and enjoy the result.
 
+- more processing sketches @ https://www.openprocessing.org/browse/#
+
 ## TODO
 
 - better image handling
-- standardize homepage cards
+- handle expired token from local storage
+- setTimeout to get next song from currently
+- lift state out to sinesthesia (handleChange)
 - add music samples to lessons page
 - toast for email sent, hide form after sent email
 - enable processing to use audio features
@@ -13,9 +17,9 @@ Sinesthesia is unique among audio visualizers in that it uses music as the seed 
 - add portfolio pieces
 
 - stricter email form validation
+- spotify social mapping capabilities?
 - add spotify player to page
 - general styling with bootstrap
-- add token to localStorage
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
