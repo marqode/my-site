@@ -32,6 +32,7 @@ const SketchWrapper = ({ sketch, scaleKey, params }) => {
       }
       params[key] = val;
     }
+    if (params["speed"]) params["speed"] *= 100;
   };
 
   // transform musical key (and other props?) into color

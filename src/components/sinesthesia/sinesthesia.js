@@ -1,96 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import * as SpotifyApi from "./spotify/spotifyApi";
 import SinesthesiaContent from "./sinesthesiaContent";
 import hash from "./spotify/hash";
 
-class Sinesthesia extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      token: localStorage.getItem("token")
-        ? localStorage.getItem("token")
-        : null,
-      // items: [],
-      sketch: { sketchID: 0 },
-      track: null,
-      features: null,
-      playing: false,
-    };
+const Sinesthesia = () => {
+  // constructor() {
+  //   super();
+  //   this.state = {
+  const [token, setToken] = useState(
+    localStorage.getItem("token") ? localStorage.getItem("token") : null
+  );
+  const [sketch, setSketch] = useState({ sketchID: 0 });
+  const [track, setTrack] = useState();
+  const [features, setFeatures] = useState(null);
+  const [playing, setPlaying] = useState(false);
+  const [selectors, setSelectors] = useState([]);
+  //   };
 
-    this.handleChange.bind(this);
+  //   this.handleChange.bind(this);
+  // }
+  // add handling for expired token
+
+  if (!token && hash.access_token) {
+    let _token = hash.access_token;
+    console.log("token=" + _token);
+    setToken(_token);
+    localStorage.setItem("token", _token);
+    getData(_token);
+  } else if (token && !features) {
+    debugger;
+    getData(token);
   }
 
-  handleChange() {
+  console.log("token=" + token);
+
+  function handleChange() {
     // destructure on first line to avoid errors
     const { name, value } = event.target;
-    this.setState(() => ({
-      ...this.state.sketch,
-      [name]: parseInt(value, 10),
+    debugger;
+    setSketch((prevParams) => ({
+      ...prevParams,
+      [name]: name === "sketchID" ? parseInt(value, 10) : value,
     }));
   }
 
-  async componentDidMount() {
-    let _token = hash.access_token || this.state.token;
-    // add handling for expired token
-
-    if (_token) {
-      console.log("token=" + _token);
-      this.setState({
-        token: _token,
-      });
-      localStorage.setItem("token", _token);
-      this.getData(_token);
-    }
-  }
-
-  async getData(token) {
+  async function getData(token) {
     try {
       let newData = await SpotifyApi.getCurrentlyPlaying(token);
-      this.setState({
-        track: newData.item,
-      });
-      this.displayTrackFeatures();
-      this.setState({ playing: true });
+      setTrack(newData.item);
+      displayTrackFeatures();
+      setPlaying(true);
     } catch (e) {
       try {
         let newData = await SpotifyApi.getLastPlayed(token);
-        this.setState({
-          track: newData.items[0].track,
-          playing: false,
-        });
-        this.displayTrackFeatures();
+        setTrack(newData.items[0].track);
+        setPlaying(false);
+        displayTrackFeatures();
       } catch (e) {
         console.log("Bad token, erasing from state");
-        this.setState({ token: "" });
+        setToken("");
       }
     }
   }
 
-  async displayTrackFeatures() {
-    let features = await SpotifyApi.getTrackFeatures(
-      this.state.token,
-      this.state.track.id
-    );
+  async function displayTrackFeatures() {
+    let features = await SpotifyApi.getTrackFeatures(token, track.id);
     // Object.keys(features).map((key) => {
-    this.setState({
-      features,
-    });
+    debugger;
+    setFeatures(features);
+    setSelectors([{ speed: "tempo" }, { color: "key" }]);
     // });
   }
 
-  render() {
-    return (
-      <SinesthesiaContent
-        track={this.state.track}
-        features={this.state.features}
-        playing={this.state.playing}
-        onChange={this.handleChange}
-        getToken={() =>
-          this.state.token ? this.getData() : SpotifyApi.getToken()
-        }
-      />
-    );
-  }
-}
+  // render() {
+  return (
+    <SinesthesiaContent
+      track={track}
+      features={features}
+      playing={playing}
+      selectors={selectors}
+      onChange={handleChange}
+      getData={() => (token ? getData() : SpotifyApi.getToken())}
+    />
+  );
+  // }
+};
 
 export default Sinesthesia;

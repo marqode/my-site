@@ -4,31 +4,33 @@ import { Collapse } from "react-bootstrap";
 import SelectInput from "../common/SelectInput";
 // import Sketch02 from "./sketches/sketch02";
 import SketchWrapper, { sketchList } from "./sketches/SketchWrapper";
+import MapTrackFeatures from "./MapTrackFeatures";
 
-const SinesthesiaContent = (props) => {
+// destructure props here
+const SinesthesiaContent = ({
+  track,
+  onChange,
+  features,
+  selectors,
+  getData,
+  playing,
+}) => {
   const [open, setOpen] = useState(false);
-  const [params, setParams] = useState({ a: 0.411, b: 0.096, c: 10, d: -17 });
+  const [params, setParams] = useState({
+    a: 0.411,
+    b: 0.096,
+    c: 10,
+    d: -17,
+    speed: 60,
+  });
   const [sketch, setSketch] = useState({ sketchID: 0 });
 
   useEffect(() => {
-    if (props.features) {
+    if (features) {
       // params.speed = props.features.tempo;
-      setParams({ speed: props.features.tempo });
+      setParams({ speed: features.tempo });
     }
-  }, [props.features]);
-
-  function handleChange() {
-    // destructure on first line to avoid errors
-    const { name, value } = event.target;
-    setSketch((prevSketch) => ({
-      ...prevSketch,
-      [name]: parseInt(value, 10),
-    }));
-  }
-
-  // const speedParams = ["tempo", "danceability", "energy"];
-  // const colorParams = ["key"];
-  // const satParams = ["loudness", "speechiness"];
+  }, [features]);
 
   return (
     <>
@@ -55,7 +57,7 @@ const SinesthesiaContent = (props) => {
         <div className="col col-md-3">
           <button
             className="btn btn-large btn-primary"
-            onClick={() => props.getToken()}
+            onClick={() => getData()}
           >
             Click here to load Spotify data.
           </button>
@@ -69,24 +71,24 @@ const SinesthesiaContent = (props) => {
               value: sketch.id,
               text: sketch.name,
             }))}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </div>
-        {props.track ? (
+        {track ? (
           <>
             <div className="col-md-3">
               <div className="div">
-                {props.playing ? "Currently Playing: " : "Last Played: "}
-                {props.track.name}
+                {playing ? "Currently Playing: " : "Last Played: "}
+                {track.name}
                 <br />
-                by {props.track.artists[0].name}
+                by {track.artists[0].name}
               </div>
             </div>
             <div className="col-md-3">
               <button
                 className="btn btn-secondary"
                 onClick={() => setOpen(!open)}
-                style={{ display: props.track ? "block" : "none" }}
+                style={{ display: track ? "block" : "none" }}
                 data-toggle="collapse"
                 data-target="#track-features"
                 aria-controls="track-features"
@@ -95,28 +97,28 @@ const SinesthesiaContent = (props) => {
                 Show Track Features
               </button>
             </div>
-            <div className="row justify-content-center">
-              <Collapse in={open}>
-                <div className="collapse" id="track-features">
-                  <div className="card card-body">
-                    {props.features
-                      ? Object.keys(props.features).map((key) => {
-                          return (
-                            <li key={key}>
-                              {key}: {props.features[key]}
-                            </li>
-                          );
-                        })
-                      : ""}
-                  </div>
-                </div>
-              </Collapse>
-            </div>
           </>
         ) : (
           ""
         )}
       </div>
+
+      <Collapse in={open}>
+        <div className="collapse" id="track-features">
+          {/* <div className="card card-body"> */}
+          {features ? (
+            <MapTrackFeatures
+              onChange={onChange}
+              features={features}
+              selectors={selectors}
+              speed={params.speed}
+            />
+          ) : (
+            ""
+          )}
+          {/* </div> */}
+        </div>
+      </Collapse>
       <div className="row justify-content-center">
         <div className="col-md-8">
           <SketchWrapper
@@ -149,7 +151,8 @@ onChange={handleChange}
 SinesthesiaContent.propTypes = {
   features: PropTypes.object,
   track: PropTypes.object,
-  getToken: PropTypes.func,
+  selectors: PropTypes.array,
+  getData: PropTypes.func,
   onChange: PropTypes.func,
   playing: PropTypes.bool,
 };
