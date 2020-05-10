@@ -6,12 +6,18 @@ import p5 from "p5";
 class PerlinNoise extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      params: props.params,
-      bg: props.bg,
-      colorMode: props.colorMode,
-    };
     this.myRef = React.createRef();
+    this.delta = false;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.params !== prevProps.params) {
+      //     this.setState({ params: this.props.params });
+      this.delta = true;
+    }
+    //   if (this.props.bg !== prevProps.bg) {
+    //     this.setState({ bg: this.props.bg });
+    //   }
   }
 
   sketch = (p) => {
@@ -19,12 +25,14 @@ class PerlinNoise extends React.Component {
     var particles_b = [];
     var particles_c = [];
     var nums = 100;
-    var noiseScale = 200; // default map to tempo
+    var noiseScale = this.props.params.variance * 600; // map to params.variance
+    let c1 = [69, 33, 124];
 
     p.setup = () => {
       p.createCanvas(800, 600);
-      p.background(21, 8, 50); // default map to key
-      p.frameRate(this.state.params.speed);
+      // p.background(21, 8, 50); // map to params.color
+      p.background(this.props.bg);
+      p.frameRate(this.props.params.speed);
       for (var i = 0; i < nums; i++) {
         particles_a[i] = new Particle(
           p.random(0, p.width),
@@ -45,6 +53,13 @@ class PerlinNoise extends React.Component {
     };
 
     p.draw = () => {
+      if (this.delta) {
+        console.log("changed params");
+        p.frameRate(this.props.params.speed);
+        noiseScale = this.props.params.variance * 600; // map to params.variance
+        p.colorMode(p.RGB, this.props.params.color * 500);
+        this.delta = false;
+      }
       p.noStroke();
       p.smooth();
       for (var i = 0; i < nums; i++) {

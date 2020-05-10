@@ -11,25 +11,28 @@ const Sinesthesia = () => {
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
   const [sketch, setSketch] = useState({ sketchID: 0 });
-  const [track, setTrack] = useState();
+  // const [track, setTrack] = useState();
+  let track = null;
+  let trackFeatures = null;
   const [features, setFeatures] = useState(null);
   const [playing, setPlaying] = useState(false);
-  const [selectors, setSelectors] = useState([]);
+  let selectors = [];
+  // const [selectors, setSelectors] = useState([]);
   //   };
 
   //   this.handleChange.bind(this);
   // }
   // add handling for expired token
 
-  if (!token && hash.access_token) {
+  if (hash.access_token) {
     let _token = hash.access_token;
     console.log("token=" + _token);
     setToken(_token);
     localStorage.setItem("token", _token);
-    getData(_token);
-  } else if (token && !features) {
+    setFeatures(getData(_token));
+  } else if (token && !trackFeatures && !features) {
     debugger;
-    getData(token);
+    setFeatures(getData(token));
   }
 
   console.log("token=" + token);
@@ -37,9 +40,8 @@ const Sinesthesia = () => {
   function handleChange() {
     // destructure on first line to avoid errors
     const { name, value } = event.target;
-    debugger;
-    setSketch((prevParams) => ({
-      ...prevParams,
+    setSketch((prevSketch) => ({
+      ...prevSketch,
       [name]: name === "sketchID" ? parseInt(value, 10) : value,
     }));
   }
@@ -47,18 +49,20 @@ const Sinesthesia = () => {
   async function getData(token) {
     try {
       let newData = await SpotifyApi.getCurrentlyPlaying(token);
-      setTrack(newData.item);
-      displayTrackFeatures();
+      track = newData.item;
+      // setTrack(newData.item);
       setPlaying(true);
+      return await displayTrackFeatures();
     } catch (e) {
       try {
         let newData = await SpotifyApi.getLastPlayed(token);
-        setTrack(newData.items[0].track);
+        track = newData.items[0].track;
+        // setTrack(newData.items[0].track);
         setPlaying(false);
-        displayTrackFeatures();
+        return await displayTrackFeatures();
       } catch (e) {
-        console.log("Bad token, erasing from state");
-        setToken("");
+        console.log("Bad token, erasing from state, ", e);
+        setToken(null);
       }
     }
   }
@@ -67,8 +71,11 @@ const Sinesthesia = () => {
     let features = await SpotifyApi.getTrackFeatures(token, track.id);
     // Object.keys(features).map((key) => {
     debugger;
-    setFeatures(features);
-    setSelectors([{ speed: "tempo" }, { color: "key" }]);
+    // setFeatures(features);
+    trackFeatures = features;
+    selectors = [{ speed: "tempo" }, { color: "key" }];
+    return features;
+    // setSelectors([{ speed: "tempo" }, { color: "key" }]);
     // });
   }
 
@@ -76,7 +83,7 @@ const Sinesthesia = () => {
   return (
     <SinesthesiaContent
       track={track}
-      features={features}
+      features={trackFeatures}
       playing={playing}
       selectors={selectors}
       onChange={handleChange}

@@ -2,7 +2,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import HomePage from "./home/HomePage";
-import Sinesthesia from "./sinesthesia/Sinesthesia";
+import Sinesthesia from "./sinesthesia/SinesthesiaClass";
 import Resume from "./resume/Resume";
 import LessonsHome from "./lessons/LessonsHome";
 import Header from "./common/Header";

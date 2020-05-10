@@ -206,13 +206,14 @@ class Pendulum {
     //fill(0);
   }
 
-  draw(hue, sat, brt, hue2, p5) {
-    // p5.stroke(c2);
-    p5.stroke(hue, sat, brt, 5);
+  // draw(hue, sat, brt, hue2, p5) {
+  draw(c1, c2, p5) {
+    p5.stroke(c2);
+    // p5.stroke(hue, sat, brt, 5);
     p5.strokeWeight(0.5);
     p5.line(this.cx, this.cy, this.omega2, this.x1, this.y1, -this.omega1);
-    // p5.stroke(c1);
-    p5.stroke(hue2, sat, brt, 5);
+    p5.stroke(c1);
+    // p5.stroke(hue2, sat, brt, 5);
     p5.line(this.x1, this.y1, this.omega1, this.x2, this.y2, -this.omega2);
     //fill(0);
 

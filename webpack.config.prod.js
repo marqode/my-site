@@ -27,9 +27,9 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.API_URL": JSON.stringify("http://localhost:3001"),
-      "process.env.REDIRECT_URL": (process.env.REDIRECT_URI = JSON.stringify(
+      "process.env.REDIRECT_URI": JSON.stringify(
         "https://marqode.github.io/sinesthesia"
-      )),
+      ),
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",

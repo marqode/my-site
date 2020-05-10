@@ -8,6 +8,7 @@ import MapTrackFeatures from "./MapTrackFeatures";
 
 // destructure props here
 const SinesthesiaContent = ({
+  sketchID,
   track,
   onChange,
   features,
@@ -15,22 +16,24 @@ const SinesthesiaContent = ({
   getData,
   playing,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [params, setParams] = useState({
-    a: 0.411,
-    b: 0.096,
-    c: 10,
-    d: -17,
     speed: 60,
+    color: 4,
+    variance: 100,
   });
-  const [sketch, setSketch] = useState({ sketchID: 0 });
+  // const [sketch, setSketch] = useState({ sketchID: 0 });
 
   useEffect(() => {
     if (features) {
       // params.speed = props.features.tempo;
-      setParams({ speed: features.tempo });
+      setParams({
+        speed: features[selectors[0]],
+        color: features[selectors[1]],
+        variance: features[selectors[2]],
+      });
     }
-  }, [features]);
+  }, [features, selectors]);
 
   return (
     <>
@@ -46,10 +49,11 @@ const SinesthesiaContent = ({
           <p>
             Sinesthesia is unique among audio visualizers in that it uses music
             as the seed for pieces of generative art. Generative art, much like
-            human art, is never exactly the same. This example uses a double
-            pendulum simulation to create an imprint of chaotic motion on the
-            screen, inspired by whatever {"you've"} been listening to recently!
-            Thank you for your patience with this work in progress :)
+            human art, is never exactly the same. This example uses a Perlin
+            noise or double pendulum simulation to create an imprint of chaotic
+            motion on the screen, inspired by whatever {"you've"} been listening
+            to recently! Thank you for your patience with this work in progress
+            :)
           </p>
         </div>
       </div>
@@ -65,7 +69,7 @@ const SinesthesiaContent = ({
           <SelectInput
             name="sketchID"
             label="Processing Sketch"
-            value={sketch.sketchID}
+            value={sketchID}
             defaultOption="Select Sketch"
             options={sketchList.map((sketch) => ({
               value: sketch.id,
@@ -121,13 +125,15 @@ const SinesthesiaContent = ({
       </Collapse>
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <SketchWrapper
-            sketch={sketch.sketchID}
-            params={params}
-            scaleKey={4}
-          />
+          <SketchWrapper sketch={sketchID} params={params} />
           {/* <Sketch02 hue={hue} /> */}
         </div>
+      </div>
+      <div className="row justify-content-center">
+        <small>
+          Source:{" "}
+          <a href={sketchList[sketchID].url}>{sketchList[sketchID].url}</a>
+        </small>
       </div>
     </>
   );
@@ -149,6 +155,7 @@ onChange={handleChange}
 }
 
 SinesthesiaContent.propTypes = {
+  sketchID: PropTypes.number,
   features: PropTypes.object,
   track: PropTypes.object,
   selectors: PropTypes.array,
