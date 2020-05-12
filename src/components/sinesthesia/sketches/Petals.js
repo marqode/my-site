@@ -2,9 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import p5 from "p5";
 
+// TODO: grow total length on each iteration
 class Petals extends React.Component {
   constructor(props) {
     super(props);
+    const { bg, params } = props;
+    const { speed, variance, color } = params;
     this.delta = false;
     this.myRef = React.createRef();
   }
@@ -19,6 +22,7 @@ class Petals extends React.Component {
     let counter = 0;
     let angle;
     let scale = 0.02;
+    let len = 0;
 
     p.setup = () => {
       p.createCanvas((p.W = 720), p.W);
@@ -45,7 +49,7 @@ class Petals extends React.Component {
         drawGradient(this.props.bg);
       }
       if (this.delta) {
-        p.frameRate(this.props.params.speed);
+        p.frameRate(this.speed);
         scale = this.props.params.variance / 20;
         this.delta = false;
       }

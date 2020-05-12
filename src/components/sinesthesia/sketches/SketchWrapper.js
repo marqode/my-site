@@ -1,7 +1,7 @@
 // this file transforms parameters from Sinesthesia (e.g. track features)
 // into sketch props and chooses a sketch to render
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sketch04 from "./sketch04";
 import PerlinNoise from "./perlinNoise";
 // import RecursionTree from "./RecursionTree";
@@ -22,8 +22,9 @@ export const sketchList = [
   },
 ];
 
-const SketchWrapper = ({ sketch, params }) => {
+const SketchWrapper = ({ sketch, params, version }) => {
   const colorMode = "HSB";
+  const [reset, setReset] = useState(version);
   let bg = params.color
     ? transformColor(params.color, colorMode)
     : [10, 10, 10];
@@ -33,6 +34,11 @@ const SketchWrapper = ({ sketch, params }) => {
     standardizeParams();
     console.log("params: " + JSON.stringify(params));
   }, [params]);
+
+  useEffect(() => {
+    // setParams based off default track features or user selection
+    setReset(version);
+  }, [version]);
 
   // make all params between 0 and 1 -> to sketchWrapper
   const standardizeParams = () => {
@@ -81,7 +87,8 @@ const SketchWrapper = ({ sketch, params }) => {
 };
 
 SketchWrapper.propTypes = {
-  key: PropTypes.number,
+  sketch: PropTypes.number,
+  version: PropTypes.number,
   params: PropTypes.object,
 };
 

@@ -6,15 +6,13 @@ Sinesthesia is unique among audio visualizers in that it uses music as the seed 
 
 ## TODO
 
+- show values/ sliders before loading spotify
 - better image handling
-- handle expired token from local storage
-- setTimeout to get next song from currently
+- setTimeout to get next song from currently playing
 - lift state out to sinesthesia (handleChange)
 - add music samples to lessons page
 - toast for email sent, hide form after sent email
-- enable processing to use audio features
 - move spotify api functions to api folder
-- add portfolio pieces
 
 - stricter email form validation
 - spotify social mapping capabilities?

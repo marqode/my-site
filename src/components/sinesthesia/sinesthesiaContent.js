@@ -11,7 +11,10 @@ const SinesthesiaContent = ({
   sketchID,
   track,
   onChange,
+  onSliderChange,
+  sliderChanges,
   features,
+  flex,
   selectors,
   getData,
   playing,
@@ -22,15 +25,16 @@ const SinesthesiaContent = ({
     color: 4,
     variance: 100,
   });
+  const [version, setVersion] = useState(0);
   // const [sketch, setSketch] = useState({ sketchID: 0 });
 
   useEffect(() => {
     if (features) {
       // params.speed = props.features.tempo;
       setParams({
-        speed: features[selectors[0]],
-        color: features[selectors[1]],
-        variance: features[selectors[2]],
+        speed: features[selectors[0]] * flex[0],
+        color: features[selectors[1]] * flex[1],
+        variance: features[selectors[2]] * flex[2],
       });
     }
   }, [features, selectors]);
@@ -113,9 +117,16 @@ const SinesthesiaContent = ({
           {features ? (
             <MapTrackFeatures
               onChange={onChange}
+              onSliderChange={onSliderChange}
+              sliderChanges={sliderChanges}
               features={features}
+              // reset={() => {
+              //   setVersion((version) => (version: version+1));
+              // }}
               selectors={selectors}
-              speed={params.speed}
+              flex={flex}
+              params={params}
+              // reset={() => {sketchID = sketchID}}
             />
           ) : (
             ""
@@ -125,7 +136,7 @@ const SinesthesiaContent = ({
       </Collapse>
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <SketchWrapper sketch={sketchID} params={params} />
+          <SketchWrapper sketch={sketchID} params={params} version={version} />
           {/* <Sketch02 hue={hue} /> */}
         </div>
       </div>
@@ -139,28 +150,16 @@ const SinesthesiaContent = ({
   );
 };
 
-// replace features list with selects
-{
-  /* <SelectInput
-name="sketchID"
-label="Processing Sketch"
-value={speedParams[0]}
-defaultOption="Speed Mapping"
-options={sketchList.map((sketch) => ({
-  value: sketch.id,
-  text: sketch.name,
-}))}
-onChange={handleChange}
-/> */
-}
-
 SinesthesiaContent.propTypes = {
   sketchID: PropTypes.number,
   features: PropTypes.object,
   track: PropTypes.object,
   selectors: PropTypes.array,
+  flex: PropTypes.array,
   getData: PropTypes.func,
   onChange: PropTypes.func,
+  onSliderChange: PropTypes.func,
+  sliderChanges: PropTypes.array,
   playing: PropTypes.bool,
 };
 

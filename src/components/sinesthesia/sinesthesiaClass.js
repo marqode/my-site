@@ -10,14 +10,20 @@ class Sinesthesia extends React.Component {
       token: null,
       track: null,
       features: null,
-      sketchID: 2,
+      sketchID: 0,
       color: "acousticness",
       speed: "tempo",
       variance: "energy",
+      flex: [1, 1, 1],
       // selectors: [{ speed: "tempo" }, { color: "key" }],
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
+    // this.sliderChanges = this.sliderChanges.bind(this);
+    this.sliderChanges.map((func) => {
+      func.bind(this);
+    });
   }
 
   async componentDidMount() {
@@ -73,12 +79,34 @@ class Sinesthesia extends React.Component {
   handleChange() {
     // destructure on first line to avoid errors
     const { name, value } = event.target;
-    // let sketch = this.state.sketch;
+    // let sketch = this.state.sketch
     this.setState((sketch) => ({
       ...sketch,
       [name]: name === "sketchID" ? parseInt(value, 10) : value,
     }));
   }
+
+  handleSliderChange(index, value) {
+    this.setState((state) => ({
+      flex: state.flex.map((item, i) => {
+        if (i == index) return value;
+        else return item;
+      }),
+    }));
+  }
+
+  sliderChanges = [
+    (value) => {
+      this.handleSliderChange(0, value);
+    },
+
+    (value) => {
+      this.handleSliderChange(1, value);
+    },
+    (value) => {
+      this.handleSliderChange(2, value);
+    },
+  ];
 
   render() {
     return (
@@ -87,7 +115,10 @@ class Sinesthesia extends React.Component {
         selectors={[this.state.speed, this.state.color, this.state.variance]}
         track={this.state.track}
         features={this.state.features}
+        flex={this.state.flex}
         onChange={this.handleChange}
+        // resetSketch={() => {this.setState(this.state => {sket})}}
+        sliderChanges={this.sliderChanges}
         getData={() =>
           this.state.token ? this.getData() : SpotifyApi.getToken()
         }

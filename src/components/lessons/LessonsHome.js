@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LessonForm from "./LessonForm";
 import { toast } from "react-toastify";
+import Example from "../../../tools/reactSound/Example";
 // import * as emailApi from "../../api/emailApi";
 
 const LessonsHome = (props) => {
@@ -87,6 +88,7 @@ const LessonsHome = (props) => {
           questions.
         </p>
       </div>
+      <Example />
       <LessonForm
         email={email}
         errors={errors}
