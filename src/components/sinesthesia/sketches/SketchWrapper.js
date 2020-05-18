@@ -4,9 +4,11 @@
 import React, { useEffect, useState } from "react";
 import Sketch04 from "./sketch04";
 import PerlinNoise from "./perlinNoise";
+import FFTTest from "./FFTTest";
 // import RecursionTree from "./RecursionTree";
 import Petals from "./Petals";
 import PropTypes from "prop-types";
+import { CONTROLSTATES } from "../sinesthesiaContent";
 
 export const sketchList = [
   {
@@ -20,11 +22,13 @@ export const sketchList = [
     name: "Petals",
     url: "https://www.openprocessing.org/sketch/819688",
   },
+  { id: 3, name: "Mic FFTTest", url: "https://p5js.org/reference/#/p5.FFT" },
 ];
 
-const SketchWrapper = ({ sketch, params, version }) => {
+const SketchWrapper = ({ sketchID, params, version }) => {
   const colorMode = "HSB";
   const [reset, setReset] = useState(version);
+  const [sketch, setSketch] = useState({ id: sketchID, version });
   let bg = params.color
     ? transformColor(params.color, colorMode)
     : [10, 10, 10];
@@ -37,12 +41,16 @@ const SketchWrapper = ({ sketch, params, version }) => {
 
   useEffect(() => {
     // setParams based off default track features or user selection
-    setReset(version);
-  }, [version]);
+    // setReset(version);
+    console.log("reset sketch");
+    // setSketch((sketch) => ({ ...sketch, version }));
+    setSketch({ id: sketchID, version });
+  }, [version, sketchID]);
 
   // make all params between 0 and 1 -> to sketchWrapper
   const standardizeParams = () => {
     for (let [key, val] of Object.entries(params)) {
+      if (key === "speed" || key === "speedAdj") break;
       if (val < 0) val *= -1;
       if (val > 1) {
         while (val > 1) val /= 10;
@@ -51,35 +59,37 @@ const SketchWrapper = ({ sketch, params, version }) => {
       }
       params[key] = val;
     }
-    if (params["speed"]) params["speed"] *= 100;
+    // if (params["speed"]) params["speed"] *= 100;
   };
 
   // transform musical key (and other props?) into color
   function transformColor(color, colorMode) {
     if (colorMode === "HSB") {
       params.colorMode = "HSB";
-      let hue = (color + 1) * (360 / 12);
+      let hue = color * 360;
       return [hue, 80, 50];
     } else {
       // assume RGB
       params.colorMode = "RGB";
       // https://stackoverflow.com/questions/20792445/calculate-rgb-value-for-a-range-of-values-to-create-heat-map
 
-      let ratio = (2 * (color + 1)) / 13;
-      let b = Math.max(0, 255 * (1 - ratio));
-      let r = Math.max(0, 255 * (ratio - 1));
-      let g = 255 - b - r;
+      // let ratio = (2 * (color + 1)) / 13;
+      let b = Math.min(255, 255 * color);
+      let r = Math.min(255, 255 * (1 - color));
+      let g = 255 - (b + r) / 2;
       return [r, g, b];
     }
   }
 
-  switch (sketch) {
+  switch (sketch.id) {
     case sketchList[0].id:
-      return <PerlinNoise bg={bg} params={params} />;
+      return <PerlinNoise bg={bg} params={params} version={version} />;
     case sketchList[1].id:
-      return <Sketch04 bg={bg} params={params} />;
+      return <Sketch04 bg={bg} params={params} version={version} />;
     case sketchList[2].id:
-      return <Petals bg={bg} params={params} />;
+      return <Petals bg={bg} params={params} version={version} />;
+    case sketchList[3].id:
+      return <FFTTest playing={true} />;
     default:
       return <div className="alert">Error with sketch :(</div>;
   }

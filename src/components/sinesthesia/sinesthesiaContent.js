@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Collapse } from "react-bootstrap";
-import SelectInput from "../common/SelectInput";
 // import Sketch02 from "./sketches/sketch02";
 import SketchWrapper, { sketchList } from "./sketches/SketchWrapper";
-import MapTrackFeatures from "./MapTrackFeatures";
+import SelectInput from "../common/SelectInput";
+import SpotifyControls from "./spotify/SpotifyControls";
+import AudioControls from "./AudioControls";
+
+export const CONTROLSTATES = { SPOTIFY: "SPOTIFY", AUDIO: "AUDIO" };
 
 // destructure props here
 const SinesthesiaContent = ({
@@ -19,13 +21,14 @@ const SinesthesiaContent = ({
   getData,
   playing,
 }) => {
-  const [open, setOpen] = useState(true);
   const [params, setParams] = useState({
     speed: 60,
+    speedAdj: 60,
     color: 4,
-    variance: 100,
+    variance: 0.5,
   });
   const [version, setVersion] = useState(0);
+  const [controls, setControls] = useState(CONTROLSTATES.AUDIO);
   // const [sketch, setSketch] = useState({ sketchID: 0 });
 
   useEffect(() => {
@@ -38,6 +41,15 @@ const SinesthesiaContent = ({
       });
     }
   }, [features, selectors]);
+
+  const handleRateChange = (value) => {
+    // setRate(value);
+    // let prevSpeed = params.speed;
+    setParams((prevParams) => ({
+      ...prevParams,
+      speedAdj: params.speed * value,
+    }));
+  };
 
   return (
     <>
@@ -62,17 +74,71 @@ const SinesthesiaContent = ({
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col col-md-3">
-          <button
-            className="btn btn-large btn-primary"
-            onClick={() => getData()}
-          >
-            Click here to load Spotify data.
-          </button>
-          <br />
+        <div className="card text-center sinesthesia-controls">
+          <div className="card-header">
+            <ul className="nav nav-tabs card-header-tabs">
+              <li className="nav-item">
+                <a
+                  className={
+                    controls === CONTROLSTATES.SPOTIFY
+                      ? "nav-link active"
+                      : "nav-link"
+                  }
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setControls(CONTROLSTATES.SPOTIFY);
+                  }}
+                >
+                  Spotify Data
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  href="#"
+                  className={
+                    controls === CONTROLSTATES.AUDIO
+                      ? "nav-link active"
+                      : "nav-link"
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setControls(CONTROLSTATES.AUDIO);
+                  }}
+                >
+                  Audio Player
+                </a>
+              </li>
+            </ul>
+          </div>
+          {controls === CONTROLSTATES.SPOTIFY ? (
+            <SpotifyControls
+              sketchID={sketchID}
+              sketchList={sketchList}
+              version={version}
+              features={features}
+              selectors={selectors}
+              flex={flex}
+              track={track}
+              playing={playing}
+              params={params}
+              setVersion={setVersion}
+              onChange={onChange}
+              onSliderChange={onSliderChange}
+              sliderChanges={sliderChanges}
+              getData={getData}
+            />
+          ) : (
+            <AudioControls onRateChange={handleRateChange} />
+          )}
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-4">
+          <h3 style={{ marginTop: "10px" }}>Processing Sketch</h3>
           <SelectInput
             name="sketchID"
-            label="Processing Sketch"
+            label=""
             value={sketchID}
             defaultOption="Select Sketch"
             options={sketchList.map((sketch) => ({
@@ -82,61 +148,16 @@ const SinesthesiaContent = ({
             onChange={onChange}
           />
         </div>
-        {track ? (
-          <>
-            <div className="col-md-3">
-              <div className="div">
-                {playing ? "Currently Playing: " : "Last Played: "}
-                {track.name}
-                <br />
-                by {track.artists[0].name}
-              </div>
-            </div>
-            <div className="col-md-3">
-              <button
-                className="btn btn-secondary"
-                onClick={() => setOpen(!open)}
-                style={{ display: track ? "block" : "none" }}
-                data-toggle="collapse"
-                data-target="#track-features"
-                aria-controls="track-features"
-                aria-expanded={open}
-              >
-                Show Track Features
-              </button>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
       </div>
 
-      <Collapse in={open}>
-        <div className="collapse" id="track-features">
-          {/* <div className="card card-body"> */}
-          {features ? (
-            <MapTrackFeatures
-              onChange={onChange}
-              onSliderChange={onSliderChange}
-              sliderChanges={sliderChanges}
-              features={features}
-              // reset={() => {
-              //   setVersion((version) => (version: version+1));
-              // }}
-              selectors={selectors}
-              flex={flex}
-              params={params}
-              // reset={() => {sketchID = sketchID}}
-            />
-          ) : (
-            ""
-          )}
-          {/* </div> */}
-        </div>
-      </Collapse>
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <SketchWrapper sketch={sketchID} params={params} version={version} />
+          <SketchWrapper
+            sketchID={sketchID}
+            params={params}
+            version={version}
+            controls={controls}
+          />
           {/* <Sketch02 hue={hue} /> */}
         </div>
       </div>

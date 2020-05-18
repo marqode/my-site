@@ -11,4 +11,10 @@ export default [
     title: "Jam in A Minor",
     duration: 0,
   },
+  {
+    url:
+      "https://github.com/marqode/my-site/blob/master/src/assets/audio/06_harware_melodic.mp3?raw=true",
+    title: "Hardware Melodic by Stefan Bucchieri",
+    duration: 0,
+  },
 ];

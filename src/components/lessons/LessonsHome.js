@@ -89,8 +89,8 @@ const LessonsHome = (props) => {
         </p>
       </div>
       <div className="row justify-content-center">
-        <div className="col-md-6">
-          <Player />
+        <div className="col-md-8">
+          <Player showLoop={false} showPlayback={false} />
         </div>
       </div>
       <LessonForm

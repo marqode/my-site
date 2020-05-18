@@ -9,8 +9,9 @@ class Sinesthesia extends React.Component {
     this.state = {
       token: null,
       track: null,
+      playing: false,
       features: null,
-      sketchID: 0,
+      sketchID: 2,
       color: "acousticness",
       speed: "tempo",
       variance: "energy",
@@ -44,6 +45,7 @@ class Sinesthesia extends React.Component {
     try {
       let newData = await SpotifyApi.getCurrentlyPlaying(token);
       this.setState({
+        playing: true,
         track: newData.item,
       });
       this.displayTrackFeatures();
@@ -114,6 +116,7 @@ class Sinesthesia extends React.Component {
         sketchID={this.state.sketchID}
         selectors={[this.state.speed, this.state.color, this.state.variance]}
         track={this.state.track}
+        playing={this.state.playing}
         features={this.state.features}
         flex={this.state.flex}
         onChange={this.handleChange}

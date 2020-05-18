@@ -25,7 +25,7 @@ const HomePage = () => (
       <div className="row justify-content-center">
         {/* <div className="col xs={6} md={4}"> */}
         <div className="col-md-4">
-          <div className="card">
+          <div className="card project-card">
             <img src={Upwork} className="card-img-top" alt="Upwork Profile" />
             <h5 className="card-title">Freelance Work</h5>
             <p className="card-text">
@@ -41,7 +41,7 @@ const HomePage = () => (
           </div>
         </div>
         <div className="col-md-4">
-          <div className="card">
+          <div className="card project-card">
             <img
               src={FloorPlan}
               className="card-img-top"
@@ -57,7 +57,7 @@ const HomePage = () => (
         </div>
         {/* <div className="col xs={6} md={4}"> */}
         <div className="col-md-4">
-          <div className="card">
+          <div className="card project-card">
             <img
               src={STEMPage}
               className="card-img-top"

@@ -15,7 +15,7 @@ const LessonForm = ({
   errors = {},
 }) => {
   return (
-    <div className="row justify-content-center">
+    <div className="row justify-content-center mt-4">
       <div className="col-md-6">
         <form onSubmit={onSave} className="md-form form-group">
           <h2>Contact Me</h2>

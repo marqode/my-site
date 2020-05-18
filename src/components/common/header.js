@@ -5,7 +5,7 @@ const Header = () => {
   const activeStyle = { color: "#F15B2A" };
 
   return (
-    <ul className="nav justify-content-center">
+    <ul className="nav nav-top justify-content-center">
       <NavLink to="/" activeStyle={activeStyle} exact>
         home
       </NavLink>

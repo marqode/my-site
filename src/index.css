@@ -13,7 +13,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.card {
+canvas {
+  width: 100% !important;
+  height: auto;
+}
+
+.sinesthesia-controls {
+  width: 60vw;
+}
+
+.controls-inner {
+  padding: 20px;
+}
+
+.player {
+  width: 100%;
+}
+
+.project-card {
   max-width: 30vw;
   margin: 20px;
   padding: 20px;
@@ -24,7 +41,7 @@ code {
     monospace;
 }
 
-.nav a {
+.nav-top a {
   padding: 10px;
   padding-right: 20px;
 }
@@ -36,8 +53,14 @@ code {
   padding: 2rem;
 }
 
-.controls * {
-  margin: 10px;
+.player {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.controls > div,
+.controls > a {
+  margin: 20px;
 }
 
 .footer {

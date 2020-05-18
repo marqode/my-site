@@ -10,14 +10,25 @@ export default class Player extends React.Component {
 
     this.state = {
       controlled: true,
-      currentSong: songs[0],
+      currentSong: songs[2],
       position: 0,
       volume: 100,
       playbackRate: 1,
       loop: false,
       playStatus: Sound.status.PLAYING,
     };
+    this.onRateChange = this.props.onRateChange
+      ? this.props.onRateChange
+      : () => {};
+    this.changePlayback = this.changePlayback.bind(this);
   }
+
+  changePlayback = (value) => {
+    this.onRateChange(value);
+    this.setState({
+      playbackRate: value,
+    });
+  };
 
   getStatusText() {
     switch (this.state.playStatus) {
@@ -45,10 +56,10 @@ export default class Player extends React.Component {
 
   renderCurrentSong() {
     return (
-      <p>
+      <div className="align-bottom mt-5">
         Current song {this.state.currentSong.title}. Song is{" "}
         {this.getStatusText()}
-      </p>
+      </div>
     );
   }
 
@@ -56,24 +67,25 @@ export default class Player extends React.Component {
     const { volume, playbackRate, loop } = this.state;
 
     return (
-      <div>
-        <SongSelector
-          songs={songs}
-          selectedSong={this.state.currentSong}
-          onSongSelected={this.handleSongSelected}
-        />
-        {/* <label>
-          <input
-            type="checkbox"
-            checked={this.state.controlled}
-            onChange={this.handleControlledComponentChange}
-          />{" "}
-          Controlled Component
-        </label> */}
-        {this.state.currentSong && this.renderCurrentSong()}
+      <div className="player bg-info">
+        <div className="row">
+          <div className="col-md-6">
+            <SongSelector
+              songs={songs}
+              selectedSong={this.state.currentSong}
+              onSongSelected={this.handleSongSelected}
+            />
+          </div>
+          <div className="col-md-6">
+            {this.state.currentSong && this.renderCurrentSong()}
+          </div>
+        </div>
+        {/* <div className="row"> */}
         <PlayerControls
           playStatus={this.state.playStatus}
           loop={loop}
+          showLoop={this.props.showLoop}
+          showPlayback={this.props.showPlayback}
           onPlay={() => this.setState({ playStatus: Sound.status.PLAYING })}
           onPause={() => this.setState({ playStatus: Sound.status.PAUSED })}
           onResume={() => this.setState({ playStatus: Sound.status.PLAYING })}
@@ -81,18 +93,15 @@ export default class Player extends React.Component {
             this.setState({ playStatus: Sound.status.STOPPED, position: 0 })
           }
           onSeek={(position) => this.setState({ position })}
-          onVolumeUp={() =>
-            this.setState({ volume: volume >= 100 ? volume : volume + 10 })
-          }
-          onVolumeDown={() =>
-            this.setState({ volume: volume <= 0 ? volume : volume - 10 })
-          }
-          onPlaybackRateUp={() =>
-            this.setState({
-              playbackRate:
-                playbackRate >= 4 ? playbackRate : playbackRate + 0.5,
-            })
-          }
+          // onVolumeUp={() =>
+          //   this.setState({ volume: volume >= 100 ? volume : volume + 10 })
+          // }
+          // onVolumeDown={() =>
+          //   this.setState({ volume: volume <= 0 ? volume : volume - 10 })
+          // }
+          volume={this.state.volume}
+          changeVolume={(value) => this.setState({ volume: value })}
+          changePlayback={this.changePlayback}
           onPlaybackRateDown={() =>
             this.setState({
               playbackRate:
@@ -127,6 +136,7 @@ export default class Player extends React.Component {
             }
           />
         )}
+        {/* </div> */}
       </div>
     );
   }

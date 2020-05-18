@@ -7,6 +7,9 @@ Sinesthesia is unique among audio visualizers in that it uses music as the seed 
 ## TODO
 
 - show values/ sliders before loading spotify
+- better jaminam
+- better speed change handling
+- divide lessons into container and presentation components
 - better image handling
 - setTimeout to get next song from currently playing
 - lift state out to sinesthesia (handleChange)

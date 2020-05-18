@@ -8,11 +8,15 @@ class Sketch04 extends React.Component {
   constructor(props) {
     super(props);
     this.delta = false;
+    this.reset = false;
     this.myRef = React.createRef();
   }
   componentDidUpdate(prevProps) {
     if (this.props.params !== prevProps.params) {
       this.delta = true;
+    }
+    if (this.props.version !== prevProps.version) {
+      this.reset = true;
     }
   }
 
@@ -78,6 +82,10 @@ class Sketch04 extends React.Component {
       if (this.delta) {
         p.frameRate(this.props.params.speed);
         this.delta = false;
+      }
+      if (this.reset) {
+        p.background(this.props.bg);
+        this.reset = false;
       }
       if (p.frameCount % 10 == 0) {
         showCoor();

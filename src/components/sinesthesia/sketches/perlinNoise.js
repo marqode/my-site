@@ -8,6 +8,7 @@ class PerlinNoise extends React.Component {
     super(props);
     this.myRef = React.createRef();
     this.delta = false;
+    this.reset = false;
   }
 
   componentDidUpdate(prevProps) {
@@ -15,12 +16,19 @@ class PerlinNoise extends React.Component {
       //     this.setState({ params: this.props.params });
       this.delta = true;
     }
+    if (this.props.version !== prevProps.version) {
+      console.log("re render");
+      this.reset = true;
+    }
     //   if (this.props.bg !== prevProps.bg) {
     //     this.setState({ bg: this.props.bg });
     //   }
   }
 
   sketch = (p) => {
+    console.log(
+      "setting up sketch with params " + JSON.stringify(this.props.params)
+    );
     var particles_a = [];
     var particles_b = [];
     var particles_c = [];
@@ -59,6 +67,10 @@ class PerlinNoise extends React.Component {
         noiseScale = this.props.params.variance * 600; // map to params.variance
         p.colorMode(p.RGB, this.props.params.color * 500);
         this.delta = false;
+      }
+      if (this.reset) {
+        p.background(this.props.bg);
+        this.reset = false;
       }
       p.noStroke();
       p.smooth();
@@ -126,6 +138,7 @@ class PerlinNoise extends React.Component {
 PerlinNoise.propTypes = {
   params: PropTypes.object,
   bg: PropTypes.array,
+  version: PropTypes.number,
   colorMode: PropTypes.string,
 };
 

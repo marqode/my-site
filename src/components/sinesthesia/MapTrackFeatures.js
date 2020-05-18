@@ -19,7 +19,7 @@ const MapTrackFeatures = ({
   return (
     <>
       <div className="row justify-content-center">
-        <div className="col-md-3">
+        <div className="col-md-4">
           <SelectInput
             name="speed"
             label="Map Features to Speed"
@@ -40,7 +40,7 @@ const MapTrackFeatures = ({
             value={flex[0]}
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <SelectInput
             name="color"
             label="Map Features to Color"
@@ -61,7 +61,7 @@ const MapTrackFeatures = ({
             value={flex[1]}
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <SelectInput
             name="variance"
             label="Map Features to Variance"
@@ -83,12 +83,12 @@ const MapTrackFeatures = ({
           />
         </div>
       </div>
-      <div className="row justify-content-center">
-        <div className="col-md-3">
+      <div className="row justify-content-center controls-inner">
+        <div className="col-md-6">
           <p>Use the flex sliders above to adjust values.</p>
         </div>
         <div className="col-md-3">
-          <button className="btn btn-small" onClick={reset}>
+          <button className="btn btn-dark" onClick={reset}>
             Reset Sketch
           </button>
         </div>

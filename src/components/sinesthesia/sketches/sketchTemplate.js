@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import p5 from "p5";
 
-class Sketch04 extends React.Component {
+class SketchTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.delta = false;
@@ -15,7 +15,10 @@ class Sketch04 extends React.Component {
     }
   }
 
-  sketch = (p) => {};
+  sketch = (p) => {
+    p.setup = () => {};
+    p.draw = () => {};
+  };
 
   componentDidMount() {
     this.myP5 = new p5(this.sketch, this.myRef.current);
@@ -26,11 +29,11 @@ class Sketch04 extends React.Component {
   }
 }
 
-Sketch04.propTypes = {
+SketchTemplate.propTypes = {
   params: PropTypes.object,
   bg: PropTypes.array,
   speed: PropTypes.number,
   colorMode: PropTypes.string,
 };
 
-export default Sketch04;
+export default SketchTemplate;
