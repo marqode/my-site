@@ -2,15 +2,15 @@
   "name": "my-site",
   "version": "0.1.0",
   "scripts": {
-    "start": "run-p start:dev start:api",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider run-p start:dev start:api",
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000",
-    "prestart:api": "node tools/createMockDb.js",
     "start:api": "node tools/apiServer.js",
-    "build": "webpack --mode production --config webpack.config.prod.js --env.PLATFORM=production --env.VERSION=stag --progress",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "prestart:api": "node tools/createMockDb.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode production --config webpack.config.prod.js --env.PLATFORM=production --env.VERSION=stag --progress",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "homepage": "https://marqode.github.io/",
   "dependencies": {
