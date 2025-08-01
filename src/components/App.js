@@ -8,6 +8,7 @@ import LessonsHome from "./lessons/LessonsHome";
 import Header from "./common/Header";
 import SocialFollow from "./common/SocialFollow";
 import PageNotFound from "./PageNotFound";
+import ResourceSiteOverview from "./resource-site-overview/ResourceSiteOverview";
 // import logo from "./logo.svg";
 // import './App.css';
 
@@ -18,6 +19,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/sinesthesia" component={Sinesthesia} />
+        <Route path="/resource-site-overview" component={ResourceSiteOverview} />
         <Route path="/lessons" component={LessonsHome} />
         {/* <Route path="/portfolio" component={Portfolio} /> */}
         <Route path="/resume" component={Resume} />

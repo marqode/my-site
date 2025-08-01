@@ -1,10 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  // email
   faGithub,
   faLinkedin,
-  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 
 export default function SocialFollow() {
@@ -19,9 +17,6 @@ export default function SocialFollow() {
           className="social"
         >
           <FontAwesomeIcon icon={faLinkedin} size="2x" />
-        </a>
-        <a href="https://www.instagram.com/marcbucchieri/" className="social">
-          <FontAwesomeIcon icon={faInstagram} size="2x" />
         </a>
       </div>
     </footer>

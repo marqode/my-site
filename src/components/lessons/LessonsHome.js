@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import LessonForm from "./LessonForm";
 import { toast } from "react-toastify";
-import Player from "../common/audio/Player";
-// import * as emailApi from "../../api/emailApi";
 
-const LessonsHome = (props) => {
+const LessonsHome = () => {
   const [email, setEmail] = useState({
     name: "",
     address: "",
@@ -14,12 +12,7 @@ const LessonsHome = (props) => {
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
 
-  // useEffect(() => {
-  //   setEmail(...props.email);
-  // }, []);
-
   function handleChange(event) {
-    // destructure on first line to avoid errors
     const { name, value } = event.target;
     setEmail((prevEmail) => ({
       ...prevEmail,
@@ -31,7 +24,6 @@ const LessonsHome = (props) => {
     const { name, address, subject, message } = email;
     const errors = {};
 
-    // map to props for each component in courseForm
     if (!name) errors.name = "Name is required.";
     if (!address) errors.address = "Email address is required";
     if (!subject) errors.subject = "Subject is required";
@@ -58,40 +50,32 @@ const LessonsHome = (props) => {
       });
   }
 
-  // move to api file?
   function sendEmail() {
-    return window.emailjs.send("gmail", "template_4UDckfCl", {
-      message_html: email.message,
-      from_name: email.name,
-      reply_to: email.address,
+    return window.emailjs.send("service_04vsooc", "template_ac05gli", {
+      message: email.message,
+      name: email.name,
+      email: email.address,
       subject: email.subject,
     });
-    // emailApi
-    //   .sendEmail(email)
-    //   //     .then(() => {
-    //   //       toast.success("Email setn!");
-    //   //       history.push("/courses");
-    //   //     })
-    //   .catch((error) => {
-    //     throw error;
-    //   })
   }
 
   return (
     <>
       <div className="jumbotron">
-        <h2>Music Lessons</h2>
+        <h2>Online Tutoring</h2>
         <p>
-          During the Covid pandemic and social distancing I am beginning to
-          offer remote music lessons for aspriing pianists and guitar players.
-          More content coming soon! Feel free to contact me if you have any
-          questions.
+          {"I'm"} excited to offer online tutoring to aspiring computer scientists of all ages! I have a decade of experience teaching coding to learners of all ages, including university-level Web Development and Machine Learning. Check out the <a href={'/research'}>KTBYTE Student Research Projects</a> to see work from some of my former students.
         </p>
-      </div>
-      <div className="row justify-content-center">
-        <div className="col-md-8">
-          <Player showLoop={false} showPlayback={false} />
-        </div>
+
+        <p>Tutoring available for the following skills:</p>
+        <ul>
+          <li>Java: processing.org and backend web development</li>
+          <li>Python: NumPy, Pandas, scikit-learn</li>
+          <li>Machine Learning: Tensorflow, Keras, PyTorch</li>
+          <li>Fullstack Web Development: React, Typescript, SQL, PostgresSQL, Webpack, Node.js</li>
+        </ul>
+
+        <p>Sliding scale pricing available. Fill out contact form below for more details.</p>
       </div>
       <LessonForm
         email={email}

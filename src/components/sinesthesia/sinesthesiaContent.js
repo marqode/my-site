@@ -77,22 +77,22 @@ const SinesthesiaContent = ({
         <div className="card text-center sinesthesia-controls">
           <div className="card-header">
             <ul className="nav nav-tabs card-header-tabs">
-              <li className="nav-item">
-                <a
-                  className={
-                    controls === CONTROLSTATES.SPOTIFY
-                      ? "nav-link active"
-                      : "nav-link"
-                  }
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setControls(CONTROLSTATES.SPOTIFY);
-                  }}
-                >
-                  Spotify Data
-                </a>
-              </li>
+              {/*<li className="nav-item">*/}
+              {/*  <a*/}
+              {/*    className={*/}
+              {/*      controls === CONTROLSTATES.SPOTIFY*/}
+              {/*        ? "nav-link active"*/}
+              {/*        : "nav-link"*/}
+              {/*    }*/}
+              {/*    href="#"*/}
+              {/*    onClick={(e) => {*/}
+              {/*      e.preventDefault();*/}
+              {/*      setControls(CONTROLSTATES.SPOTIFY);*/}
+              {/*    }}*/}
+              {/*  >*/}
+              {/*    Spotify Data*/}
+              {/*  </a>*/}
+              {/*</li>*/}
               <li className="nav-item">
                 <a
                   href="#"

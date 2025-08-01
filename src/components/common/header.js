@@ -7,16 +7,16 @@ const Header = () => {
   return (
     <ul className="nav nav-top justify-content-center">
       <NavLink to="/" activeStyle={activeStyle} exact>
-        home
+        Home
       </NavLink>
       <NavLink to="/resume" activeStyle={activeStyle}>
-        resume
+        Resume
       </NavLink>
+        <NavLink to="/lessons" activeStyle={activeStyle}>
+            Online Tutoring
+        </NavLink>
       <NavLink to="/sinesthesia" activeStyle={activeStyle}>
-        sinesthesia
-      </NavLink>
-      <NavLink to="/lessons" activeStyle={activeStyle}>
-        music lessons
+        Sinesthesia Project
       </NavLink>
     </ul>
   );
